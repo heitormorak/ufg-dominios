@@ -1,4 +1,4 @@
-# Sistema de visualização 3D - Geotécnica UFG
+# Sistema de visualização 3D - GynViewer
 
 ## Objetivo
 Esse sistema permite uma nova abordagem para visualização de dados públicos do município de Goiânia. Atualmente são exibidos dados sobre nível do solo e áreas de risco.
