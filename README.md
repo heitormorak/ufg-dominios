@@ -10,3 +10,44 @@ Como MVP o projeto foi aprovado pelos envolvidos. A próxima etapa é tornar a s
 - Vite
 - ReactJS
 - MySQL (AWS RDS)
+
+## Caminhos
+- Quadro do projeto: https://github.com/users/heitormorak/projects/2
+- Frontend: .\frontend
+- Backend: .\backend
+
+## Ambiente
+- Importar dados do script ./recente.sql para banco MySQL.
+- Renomear o arquivo example.env para .env
+- Preencher os dados de acesso ao banco de dados MySQL.
+
+## Start Frontend
+- Entrar na pasta 'frontend' do projeto pelo terminal
+
+Pode ser executado com yarn ou npm:
+```
+yarn install
+```
+```
+yarn run dev
+```
+ou 
+```
+npm install
+```
+```
+npm run dev
+```
+
+## Start Backend
+- Entrar na pasta 'backend' do projeto pelo terminal
+```
+npm install
+```
+```
+node api.js
+```
+ou
+```
+npm rum start
+```
