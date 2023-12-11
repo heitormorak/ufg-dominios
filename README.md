@@ -49,5 +49,5 @@ node api.js
 ```
 ou
 ```
-npm rum start
+npm run start
 ```

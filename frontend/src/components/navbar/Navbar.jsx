@@ -14,7 +14,6 @@ const Navbar = () => {
           <NavLink to='/Home' activeStyle>
             Home
           </NavLink>          
-          {/* TO DO:
           <NavLink to='/Mapa' activeStyle>
             Visualizar Profundidade
           </NavLink> 
@@ -23,7 +22,7 @@ const Navbar = () => {
           </NavLink>
           <NavLink to='/Amostra' activeStyle>
             Cadastrar
-          </NavLink>  */}
+          </NavLink> 
         </NavMenu>        
       </Nav>    
     </> 

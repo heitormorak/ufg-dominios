@@ -10,7 +10,8 @@
   },
   "scripts": {
     "exe": "pkg package.json --output out/server",
-    "start": "node api.js"
+    "start": "node api.js",
+    "dev": "nodemon api.js"
   },
   "keywords": [],
   "author": "",
