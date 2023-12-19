@@ -1,8 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from "dotenv";
-import { conexao } from './src/config/db.js';
-import { router } from './src/routes/index.js'
+import {conexao} from './src/config/db.js';
+import {router} from './src/routes/index.js'
 
 dotenv.config();
 
@@ -16,6 +16,6 @@ app.use(cors());
 
 app.use(router);
 
-app.listen(port,()=>{
+app.listen(port, () => {
     console.log(`Server is running in the port: ${port}`);
 })

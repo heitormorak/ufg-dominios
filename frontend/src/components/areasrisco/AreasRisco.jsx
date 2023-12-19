@@ -58,7 +58,7 @@ export default function App({
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(`${server}/getriscos`);
+      const response = await fetch(`${server}/riscos`);
       if (response.status >= 200 && response.status <= 300) {
         const polygon = await response.json();
         setPolygonData(polygon);

@@ -29,7 +29,7 @@ const Amostra = () => {
 			nspt1: nspt1,
 			nspt2: nspt2,
         }
-        const response = await fetch(`${server}/salvar`, {
+        const response = await fetch(`${server}/amostras`, {
             method: "POST",             
             headers:{
                 accept : "application/json",
