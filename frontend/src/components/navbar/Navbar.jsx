@@ -11,18 +11,21 @@ const Navbar = () => {
       
       <Nav style={{ display: 'flex', justifyContent: 'center' }}>
         <NavMenu>
-          <NavLink to='/Home' activeStyle>
+          <NavLink to='/home' activeStyle>
             Home
           </NavLink>          
-          <NavLink to='/Mapa' activeStyle>
+          <NavLink to='/mapa' activeStyle>
             Visualizar Profundidade
           </NavLink> 
-          <NavLink to='/Risco' activeStyle>
+          <NavLink to='/risco' activeStyle>
             Visualizar Riscos
           </NavLink>
-          <NavLink to='/Amostra' activeStyle>
-            Cadastrar
-          </NavLink> 
+          <NavLink to='/amostra' activeStyle>
+            Cadastrar amostra
+          </NavLink>
+          <NavLink to='/cadastrorisco' activeStyle>
+            Cadastrar risco
+          </NavLink>
         </NavMenu>        
       </Nav>    
     </> 

@@ -1,6 +1,6 @@
-import { Router } from "express";
-import { EnrollAmostra, GetAmostras } from '../controllers/amostrasController.js';
-import { EnrollRisco, GetRiscos } from '../controllers/riscosController.js';
+import {Router} from "express";
+import {EnrollAmostra, GetAmostras} from '../controllers/amostrasController.js';
+import {EnrollRisco, GetRiscos} from '../controllers/riscosController.js';
 
 const router = Router();
 
@@ -9,4 +9,4 @@ router.post('/amostras', EnrollAmostra);
 router.get('/riscos', GetRiscos);
 router.post('/riscos', EnrollRisco);
 
-export { router };
+export {router};

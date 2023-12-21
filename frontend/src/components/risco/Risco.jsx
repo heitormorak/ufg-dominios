@@ -8,28 +8,34 @@ import {
     StyledFormInput,
     StyledFormLabel,
     Title
-} from './AmostraElements';
+} from './RiscoElements';
 import {server} from '../../server.js';
 
-const Amostra = () => {
+const Risco = () => {
 
     const [numRel, setNumRel] = useState('');
     const [cooY, setCooY] = useState('');
     const [cooX, setCooX] = useState('');
-    const [nspt1, setNspt1] = useState('');
+    const [numMorad, setNumMorad] = useState('');
     const [nspt2, setNspt2] = useState('');
-    const [numAmostra, setNumAmostra] = useState('');
+    const [numPessoa, setNumPessoa] = useState('');
+    const [grauRisco, setGrauRisco] = useState('');
+    const [descricao, setDescricao] = useState('');
+    const [grauVulne, setGrauVulne] = useState('');
 
     async function Salvar() {
         const body = {
             num_rel: numRel,
-            num_amostra: numAmostra,
             cooX: cooX,
             cooY: cooY,
-            nspt1: nspt1,
+            num_morad: numMorad,
             nspt2: nspt2,
+            num_pessoa: numPessoa,
+            grau_risco: grauRisco,
+            descricao: descricao,
+            grau_vulne: grauVulne
         }
-        const response = await fetch(`${server}/amostras`, {
+        const response = await fetch(`${server}/riscos`, {
             method: "POST",
             headers: {
                 accept: "application/json",
@@ -56,7 +62,7 @@ const Amostra = () => {
                     alignItems: 'center',
                     justifyContent: 'center'
                 }}>
-                    <Title>Cadastro de amostras</Title>
+                    <Title>Cadastro de riscos</Title>
                 </div>
 
                 <Search/>
@@ -85,6 +91,12 @@ const Amostra = () => {
                             <StyledFormLabel>Coordenada X</StyledFormLabel>
                             <StyledFormInput value={cooX} onChange={(e) => setCooX(e.target.value)}/>
                         </StyledFormDiv>
+
+                        <StyledFormDiv>
+                            <StyledFormLabel>Número da moradia</StyledFormLabel>
+                            <StyledFormInput value={numMorad} onChange={(e) => setNumMorad(e.target.value)}/>
+                        </StyledFormDiv>
+
                     </div>
 
                     <div style={{
@@ -96,19 +108,30 @@ const Amostra = () => {
                         width: '100%',
                         height: '100%'
                     }}>
-                        <StyledFormDiv>
-                            <StyledFormLabel>Número da amostra</StyledFormLabel>
-                            <StyledFormInput value={numAmostra} onChange={(e) => setNumAmostra(e.target.value)}/>
-                        </StyledFormDiv>
-
-                        <StyledFormDiv>
-                            <StyledFormLabel>Nspt 1o+2o - última amostra</StyledFormLabel>
-                            <StyledFormInput value={nspt1} onChange={(e) => setNspt1(e.target.value)}/>
-                        </StyledFormDiv>
 
                         <StyledFormDiv>
                             <StyledFormLabel>Nspt 2o+3o - última amostra</StyledFormLabel>
                             <StyledFormInput value={nspt2} onChange={(e) => setNspt2(e.target.value)}/>
+                        </StyledFormDiv>
+
+                        <StyledFormDiv>
+                            <StyledFormLabel>Número de pessoas</StyledFormLabel>
+                            <StyledFormInput value={numPessoa} onChange={(e) => setNumPessoa(e.target.value)}/>
+                        </StyledFormDiv>
+
+                        <StyledFormDiv>
+                            <StyledFormLabel>Grau de risco</StyledFormLabel>
+                            <StyledFormInput value={grauRisco} onChange={(e) => setGrauRisco(e.target.value)}/>
+                        </StyledFormDiv>
+
+                        <StyledFormDiv>
+                            <StyledFormLabel>Descrição</StyledFormLabel>
+                            <StyledFormInput value={descricao} onChange={(e) => setDescricao(e.target.value)}/>
+                        </StyledFormDiv>
+
+                        <StyledFormDiv>
+                            <StyledFormLabel>Grau de vulnerabilidade</StyledFormLabel>
+                            <StyledFormInput value={grauVulne} onChange={(e) => setGrauVulne(e.target.value)}/>
                         </StyledFormDiv>
                     </div>
                 </div>
@@ -126,4 +149,4 @@ const Amostra = () => {
         </Container>
     );
 };
-export default Amostra;
+export default Risco;

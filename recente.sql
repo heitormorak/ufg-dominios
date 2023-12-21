@@ -92,5 +92,12 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
+DROP TABLE IF EXISTS `usuarios`;
+CREATE TABLE `usuarios` (
+                          `id` int NOT NULL AUTO_INCREMENT,
+                          `email` varchar(255) NOT NULL,
+                          `senha` varchar(255) NOT NULL,
+                          `usuario` varchar(255) NOT NULL,
+                          PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 -- Dump completed on 2023-07-02 11:04:05
