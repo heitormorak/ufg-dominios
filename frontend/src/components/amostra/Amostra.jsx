@@ -7,7 +7,11 @@ import {
     StyledFormDiv,
     StyledFormInput,
     StyledFormLabel,
-    Title
+    Title,
+    TitleDiv,
+    FormContainer,
+    FormSection,
+    ButtonDiv 
 } from './AmostraElements';
 import {server} from '../../server.js';
 
@@ -48,29 +52,14 @@ const Amostra = () => {
     return (
         <Container>
             <StyledDiv>
-                <div style={{
-                    backgroundColor: '',
-                    display: 'flex',
-                    width: '100%',
-                    height: '20%',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}>
+                <TitleDiv>
                     <Title>Cadastro de amostras</Title>
-                </div>
+                </TitleDiv>
 
                 <Search/>
 
-                <div style={{backgroundColor: '', display: 'flex', width: '100%', height: '60%'}}>
-                    <div style={{
-                        backgroundColor: '',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: '100%',
-                        height: '100%'
-                    }}>
+                <FormContainer>
+                    <FormSection>
                         <StyledFormDiv>
                             <StyledFormLabel>Número do Relatório</StyledFormLabel>
                             <StyledFormInput value={numRel} onChange={(e) => setNumRel(e.target.value)}/>
@@ -85,17 +74,9 @@ const Amostra = () => {
                             <StyledFormLabel>Coordenada X</StyledFormLabel>
                             <StyledFormInput value={cooX} onChange={(e) => setCooX(e.target.value)}/>
                         </StyledFormDiv>
-                    </div>
+                    </FormSection>
 
-                    <div style={{
-                        backgroundColor: '',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: '100%',
-                        height: '100%'
-                    }}>
+                    <FormSection>
                         <StyledFormDiv>
                             <StyledFormLabel>Número da amostra</StyledFormLabel>
                             <StyledFormInput value={numAmostra} onChange={(e) => setNumAmostra(e.target.value)}/>
@@ -110,18 +91,12 @@ const Amostra = () => {
                             <StyledFormLabel>Nspt 2o+3o - última amostra</StyledFormLabel>
                             <StyledFormInput value={nspt2} onChange={(e) => setNspt2(e.target.value)}/>
                         </StyledFormDiv>
-                    </div>
-                </div>
-                <div style={{
-                    backgroundColor: '',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: '100px',
-                    width: '100px',
-                    margin: '0px 0'
-                }}>
+                    </FormSection>
+                </FormContainer>
+
+                <ButtonDiv>
                     <StyledButton onClick={() => Salvar()}>Salvar</StyledButton>
-                </div>
+                </ButtonDiv>
             </StyledDiv>
         </Container>
     );
