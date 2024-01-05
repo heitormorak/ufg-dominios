@@ -26,6 +26,9 @@ const Navbar = () => {
           <NavLink to='/cadastrorisco' activeStyle>
             Cadastrar risco
           </NavLink>
+          <NavLink to='/login' activeStyle>
+            Login
+          </NavLink>
         </NavMenu>        
       </Nav>    
     </> 

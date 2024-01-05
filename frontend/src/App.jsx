@@ -8,6 +8,7 @@ import Amostra from "./components/amostra/Amostra"
 import Risco from "./components/risco/Risco.jsx"
 import Usuario from "./components/usuario/Usuario.jsx"
 import AreasRisco from "./components/areasrisco/AreasRisco"
+import Login from "./components/login/Login";
 
 
 function App() {
@@ -23,6 +24,8 @@ function App() {
         <Route path='/cadastrousuario' element={<Usuario/>} />
         <Route path='/amostra' element={<Amostra/>} />
         <Route path='/home' element={<Home/>} />
+        <Route path='/login' element={<Login/>} />
+
       </Routes>
     </Router>
     
