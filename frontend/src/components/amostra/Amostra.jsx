@@ -13,6 +13,8 @@ import {
     FormSection,
     ButtonDiv 
 } from './AmostraElements';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {server} from '../../server.js';
 
 const Amostra = () => {
@@ -42,15 +44,23 @@ const Amostra = () => {
             body: JSON.stringify(body)
         })
         if (response.status >= 200 && response.status <= 300) {
-            const body = await response.json()
+            setNumRel('');
+            setCooY('');
+            setCooX('');
+            setNspt1('');
+            setNspt2('');
+            setNumAmostra('');
+
+            toast.success('Cadastro realizado com sucesso!');
         } else {
-            console.log("ERRO");
+            toast.error("Error");
         }
     }
 
 
     return (
         <Container>
+            <ToastContainer />
             <StyledDiv>
                 <TitleDiv>
                     <Title>Cadastro de amostras</Title>

@@ -48,7 +48,6 @@ export async function EnrollRisco(req, res) {
             cooX: cooX,
             cooY: cooY,
             num_morad: num_morad,
-            nspt2: nspt2,
             num_pessoa: num_pessoa,
             grau_risco: grau_risco,
             descricao: descricao,

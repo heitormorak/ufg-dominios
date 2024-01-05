@@ -7,11 +7,10 @@ const SearchBar = () => (
             height: '90%',
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: '20%'
         }}>
 
             <label htmlFor="header-search">
-                <span style={{textAlign: 'start', marginBottom: '10px', fontSize: '18px', fontWeight: '400'}}>Pesquisar relatório </span>
+                <span style={{textAlign: 'start',  fontSize: '18px', fontWeight: '400'}}>Pesquisar relatório </span>
             </label>
             <input
                 type="text"
@@ -22,7 +21,6 @@ const SearchBar = () => (
                     width: '100%',
                     padding: '10px',
                     border: 'none',
-                    marginBottom: '10px',
                     borderRadius: '5px',
                     margin: '0 4%'
                 }}
@@ -33,7 +31,7 @@ const SearchBar = () => (
                         borderRadius: '10px',
                         border: 'none',
                         padding: '10px',
-                        backgroundColor: '#164C34',
+                        backgroundColor: 'black',
                         color: '#FFFFFF'
                     }}
             >Procurar

@@ -7,8 +7,14 @@ import {
     StyledFormDiv,
     StyledFormInput,
     StyledFormLabel,
-    Title
+    Title,
+    TitleDiv,
+    FormContainer,
+    FormSection,
+    ButtonDiv
 } from './RiscoElements';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {server} from '../../server.js';
 
 const Risco = () => {
@@ -29,7 +35,6 @@ const Risco = () => {
             cooX: cooX,
             cooY: cooY,
             num_morad: numMorad,
-            nspt2: nspt2,
             num_pessoa: numPessoa,
             grau_risco: grauRisco,
             descricao: descricao,
@@ -43,40 +48,35 @@ const Risco = () => {
             },
             body: JSON.stringify(body)
         })
-        if (response.status >= 200 && response.status <= 300) {
-            const body = await response.json()
+        if (response.status >= 200 && response.status < 300) {
+            setNumRel('');
+            setCooY('');
+            setCooX('');
+            setNumMorad('');
+            setNumPessoa('');
+            setGrauRisco('');
+            setDescricao('');
+            setGrauVulne(''); 
+            
+            toast.success('Cadastro realizado com sucesso!');
         } else {
-            console.log("ERRO");
+            toast.error("Error");
         }
     }
 
 
     return (
         <Container>
+            <ToastContainer />
             <StyledDiv>
-                <div style={{
-                    backgroundColor: '',
-                    display: 'flex',
-                    width: '100%',
-                    height: '20%',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}>
+            <TitleDiv>
                     <Title>Cadastro de riscos</Title>
-                </div>
+                </TitleDiv>
 
                 <Search/>
 
-                <div style={{backgroundColor: '', display: 'flex', width: '100%', height: '60%'}}>
-                    <div style={{
-                        backgroundColor: '',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: '100%',
-                        height: '100%'
-                    }}>
+                <FormContainer>
+                    <FormSection>
                         <StyledFormDiv>
                             <StyledFormLabel>Número do Relatório</StyledFormLabel>
                             <StyledFormInput value={numRel} onChange={(e) => setNumRel(e.target.value)}/>
@@ -96,24 +96,9 @@ const Risco = () => {
                             <StyledFormLabel>Número da moradia</StyledFormLabel>
                             <StyledFormInput value={numMorad} onChange={(e) => setNumMorad(e.target.value)}/>
                         </StyledFormDiv>
+                    </FormSection>
 
-                    </div>
-
-                    <div style={{
-                        backgroundColor: '',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: '100%',
-                        height: '100%'
-                    }}>
-
-                        <StyledFormDiv>
-                            <StyledFormLabel>Nspt 2o+3o - última amostra</StyledFormLabel>
-                            <StyledFormInput value={nspt2} onChange={(e) => setNspt2(e.target.value)}/>
-                        </StyledFormDiv>
-
+                    <FormSection>
                         <StyledFormDiv>
                             <StyledFormLabel>Número de pessoas</StyledFormLabel>
                             <StyledFormInput value={numPessoa} onChange={(e) => setNumPessoa(e.target.value)}/>
@@ -133,18 +118,12 @@ const Risco = () => {
                             <StyledFormLabel>Grau de vulnerabilidade</StyledFormLabel>
                             <StyledFormInput value={grauVulne} onChange={(e) => setGrauVulne(e.target.value)}/>
                         </StyledFormDiv>
-                    </div>
-                </div>
-                <div style={{
-                    backgroundColor: '',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: '100px',
-                    width: '100px',
-                    margin: '0px 0'
-                }}>
+                    </FormSection>
+                </FormContainer>
+
+                <ButtonDiv>
                     <StyledButton onClick={() => Salvar()}>Salvar</StyledButton>
-                </div>
+                </ButtonDiv>
             </StyledDiv>
         </Container>
     );
