@@ -3,6 +3,7 @@ import './LoginElements.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
+import {NavLink} from "../navbar/NavbarElements.js";
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -57,6 +58,9 @@ const Login = () => {
                     />
                 </div>
                 <button type="submit">Entrar</button>
+                <NavLink to='/cadastrousuario' activeStyle>
+                    Cadastrar Usuário
+                </NavLink>
             </form>
         </div>
     );

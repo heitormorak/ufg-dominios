@@ -9,7 +9,7 @@ router.get('/amostras', GetAmostras);
 router.post('/amostras', EnrollAmostra);
 router.get('/riscos', GetRiscos);
 router.post('/riscos', EnrollRisco);
-router.post('/cadastrousuario', EnrollUsuario);
+router.post('/usuarios', EnrollUsuario);
 router.post('/login', Login);
 
 

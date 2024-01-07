@@ -9,13 +9,14 @@ import {
     Title
 } from './UsuarioElements.js';
 import {server} from '../../server.js';
+import {useNavigate} from 'react-router-dom'
 
 const Usuario = () => {
 
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [usuario, setUsuario] = useState('');
-
+    const navigate = useNavigate();
     async function Salvar() {
         const body = {
             email: email,
@@ -31,7 +32,7 @@ const Usuario = () => {
             body: JSON.stringify(body)
         })
         if (response.status >= 200 && response.status <= 300) {
-            const body = await response.json()
+            navigate('/login');
         } else {
             console.log("ERRO");
         }
