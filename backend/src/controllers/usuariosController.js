@@ -1,12 +1,16 @@
 import {Usuario} from '../models/usuarioModel.js'
+import bcrypt from "bcrypt";
 
 export async function EnrollUsuario(req, res) {
     const {email, senha, usuario} = req.body;
 
     try {
+        const salt = await bcrypt.genSalt(10);
+        const senhaHash = await bcrypt.hash(senha, salt);
+
         await Usuario.create({
             email: email,
-            senha: senha,
+            senha: senhaHash,
             usuario: usuario
         });
         res.json({msg: "Registration Successful"});
@@ -25,17 +29,24 @@ export async function Login (req, res) {
             }
         });
 
-        const match = await bcrypt.compare(req.body.password, user[0].password);
-        
-        if(!match){            
-            return res.status(400).json({
-                msg: "Usuario ou senha incorreta"                
-            });
+        if(user.length < 1){
+            res.status(400).json({msg:"Usuário não encontrado"});
         }
+
+        else {
+            const match = await bcrypt.compare(req.body.password, user[0]?.senha);
         
-        res.status(200).json({msg: "Login Successful"});              
+            if(!match){            
+                return res.status(400).json({
+                    msg: "Usuario ou senha incorreta"                
+                });
+            }
+            
+            res.status(200).json({msg: "Login Successful"});        
+        }
 
     }catch (error){
-        res.status(404).json({msg:"Usuario não encontrado"});
+        console.log(error)
+        res.status(404).json({msg: error});
     }
 }
