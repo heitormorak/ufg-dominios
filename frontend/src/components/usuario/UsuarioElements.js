@@ -16,7 +16,7 @@ export const StyledDiv = styled.div`
   display: flex;
   justify-content: center;
   width: 80%;
-  height: 100%;
+  height: 80%;
   flex-wrap: wrap;
   border-radius: 20px;
   opacity: 0.98;
@@ -25,10 +25,17 @@ export const StyledDiv = styled.div`
 export const Title = styled(Label)`
   background-color: #f0f0f0;
   text-transform: uppercase;
-  font-family: tisa_sans_probold;
+  font-family: 'San Francisco', 'Helvetica Neue', sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 35px;
+`;
+
+export const TitleDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 `;
 
 export const StyledButton = styled.button`
@@ -37,13 +44,12 @@ export const StyledButton = styled.button`
   align-items: center;
   padding: 6px 14px;
   font-family: Roboto, sans-serif;
-  border-radius: 6px;
   border: none;
   font-size: 16px;
-  background: linear-gradient(180deg, #2ea44f 0%, #107E2C 100%);
+  background: black;
   color: #fff;
   background-origin: border-box;
-  box-shadow: 0px 0.5px 1.5px rgba(54, 122, 246, 0.25), inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
   cursor: pointer;
 `;
 
@@ -65,8 +71,45 @@ export const StyledFormLabel = styled(Label)`
 export const StyledFormInput = styled(Input)`
   width: 100%;
   padding: 10px;
-  border: none;
   margin-bottom: 10px;
-  border-radius: 5px;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+
+  @media (max-width: 768px) {
+    width: 40%; 
+  }
+
+  @media (max-width: 480px) {
+    width: 40%; 
+  }
 `;
 
+export const FormContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  @media (max-width: 768px) {
+    flex-direction: column; 
+    align-items: center;
+  }
+`;
+
+
+export const FormSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 45%; 
+  @media (max-width: 768px) {
+    width: 80%; 
+  }
+`;
+
+export const ButtonDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;

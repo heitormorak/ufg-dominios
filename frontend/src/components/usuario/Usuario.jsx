@@ -6,7 +6,11 @@ import {
     StyledFormDiv,
     StyledFormInput,
     StyledFormLabel,
-    Title
+    Title,
+    TitleDiv,
+    FormContainer,
+    FormSection,
+    ButtonDiv 
 } from './UsuarioElements.js';
 import {server} from '../../server.js';
 import {useNavigate} from 'react-router-dom'
@@ -42,27 +46,12 @@ const Usuario = () => {
     return (
         <Container>
             <StyledDiv>
-                <div style={{
-                    backgroundColor: '',
-                    display: 'flex',
-                    width: '100%',
-                    height: '20%',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}>
-                    <Title>Cadastro de Usuário</Title>
-                </div>
+                <TitleDiv>
+                    <Title>Cadastro de usuários</Title>
+                </TitleDiv>
 
-                <div style={{backgroundColor: '', display: 'flex', width: '100%', height: '60%'}}>
-                    <div style={{
-                        backgroundColor: '',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: '100%',
-                        height: '100%'
-                    }}>
+                <FormContainer>
+                    <FormSection>
                         <StyledFormDiv>
                             <StyledFormLabel>Email</StyledFormLabel>
                             <StyledFormInput value={email} onChange={(e) => setEmail(e.target.value)}/>
@@ -77,15 +66,11 @@ const Usuario = () => {
                             <StyledFormLabel>Senha</StyledFormLabel>
                             <StyledFormInput value={senha} onChange={(e) => setSenha(e.target.value)}/>
                         </StyledFormDiv>
-                    </div>
-                </div>
+                    </FormSection>
+                </FormContainer>
                 <div style={{
-                    backgroundColor: '',
                     display: 'flex',
                     flexDirection: 'column',
-                    height: '100px',
-                    width: '100px',
-                    margin: '0px 0'
                 }}>
                     <StyledButton onClick={() => Salvar()}>Salvar</StyledButton>
                 </div>
