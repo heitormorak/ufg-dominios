@@ -49,16 +49,21 @@ const Risco = () => {
             body: JSON.stringify(body)
         })
         if (response.status >= 200 && response.status < 300) {
-            setNumRel('');
-            setCooY('');
-            setCooX('');
-            setNumMorad('');
-            setNumPessoa('');
-            setGrauRisco('');
-            setDescricao('');
-            setGrauVulne(''); 
-            
-            toast.success('Cadastro realizado com sucesso!');
+            const body = await response.text();
+            if(body.match(/Erro:/g)) {
+                toast.error(body);
+            } else {
+                setNumRel('');
+                setCooY('');
+                setCooX('');
+                setNumMorad('');
+                setNumPessoa('');
+                setGrauRisco('');
+                setDescricao('');
+                setGrauVulne('');
+
+                toast.success('Cadastro realizado com sucesso!');
+            }
         } else {
             toast.error("Error");
         }

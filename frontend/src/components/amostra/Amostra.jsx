@@ -44,16 +44,21 @@ const Amostra = () => {
             body: JSON.stringify(body)
         })
         if (response.status >= 200 && response.status <= 300) {
-            setNumRel('');
-            setCooY('');
-            setCooX('');
-            setNspt1('');
-            setNspt2('');
-            setNumAmostra('');
+            const body = await response.text();
+            if(body.match(/Erro:/g)) {
+                toast.error(body);
+            } else {
+                setNumRel('');
+                setCooY('');
+                setCooX('');
+                setNspt1('');
+                setNspt2('');
+                setNumAmostra('');
 
-            toast.success('Cadastro realizado com sucesso!');
+                toast.success('Cadastro realizado com sucesso!');
+            }
         } else {
-            toast.error("Error");
+            toast.error("Erro");
         }
     }
 

@@ -14,7 +14,8 @@ import {
 } from './UsuarioElements.js';
 import {server} from '../../server.js';
 import {useNavigate} from 'react-router-dom'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Usuario = () => {
 
     const [email, setEmail] = useState('');
@@ -36,7 +37,12 @@ const Usuario = () => {
             body: JSON.stringify(body)
         })
         if (response.status >= 200 && response.status <= 300) {
-            navigate('/login');
+            const body = await response.text();
+            if(body.match(/Erro:/g)) {
+                toast.error(body);
+            } else {
+                navigate('/login');
+            }
         } else {
             console.log("ERRO");
         }
@@ -45,6 +51,7 @@ const Usuario = () => {
 
     return (
         <Container>
+            <ToastContainer />
             <StyledDiv>
                 <TitleDiv>
                     <Title>Cadastro de usuários</Title>

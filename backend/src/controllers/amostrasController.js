@@ -1,5 +1,6 @@
 import {Amostra} from '../models/amostrasModel.js'
 import {GetSquare} from '../helper/squareHelper.js'
+import {validaInt, validaPreenchido, validaTamanho, validaFloat} from "../helper/validacaoHelper.js";
 
 
 export async function GetAmostras(req, res) {
@@ -49,21 +50,44 @@ export async function GetAmostras(req, res) {
 
 export async function EnrollAmostra(req, res) {
     const {num_rel, cooX, cooY, nspt1, nspt2, num_amostra} = req.body;
-
     try {
-
-        await Amostra.create({
-            num_rel: num_rel,
-            cooX: cooX,
-            cooY: cooY,
-            nspt1: nspt1,
-            nspt2: nspt2,
-            num_amostra: num_amostra
-        });
-        res.json({msg: "Registration Successful"});
+        const resultadoValidacao = ValidaAmostra(num_rel, cooX, cooY, nspt1, nspt2, num_amostra);
+        if(resultadoValidacao) {
+            res.status(200)
+            res.send("Erro:" + resultadoValidacao)
+        } else {
+            await Amostra.create({
+                num_rel: num_rel,
+                cooX: cooX,
+                cooY: cooY,
+                nspt1: nspt1,
+                nspt2: nspt2,
+                num_amostra: num_amostra
+            });
+            res.json("Registration Successful");
+        }
     } catch (error) {
         res.status(400)
         res.send({msg: "Erro 400", error})
         console.log(error);
     }
+}
+
+function ValidaAmostra(num_rel, cooX, cooY, nspt1, nspt2, num_amostra) {
+    var resultado = ''
+    resultado = resultado + validaPreenchido(num_rel, 'Número do Relatório')
+    resultado = resultado + validaPreenchido(cooX, 'Coordenada X')
+    resultado = resultado + validaPreenchido(cooY, 'Coordenada Y')
+    resultado = resultado + validaPreenchido(num_amostra, 'Número de Amostras')
+    if(resultado) {
+        return resultado
+    }
+    resultado = resultado + validaTamanho(num_rel, 'Número do Relatório', 11)
+    resultado = resultado + validaInt(num_rel, 'Número do Relatório')
+    resultado = resultado + validaFloat(cooX, 'Coordenada X')
+    resultado = resultado + validaFloat(cooY, 'Coordenada Y')
+    resultado = resultado + validaInt(nspt1, 'Nspt 1o+2o - última amostra')
+    resultado = resultado + validaInt(nspt2, 'Nspt 2o+3o - última amostra')
+    resultado = resultado + validaInt(num_amostra, 'Número de Amostras')
+    return resultado
 }
