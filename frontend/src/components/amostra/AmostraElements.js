@@ -51,6 +51,8 @@ export const StyledButton = styled.button`
   background-origin: border-box;
   border-radius: 8px;
   cursor: pointer;
+  max-width: 200px; 
+  width: 100%; 
 `;
 
 export const StyledFormDiv = styled.div`
@@ -58,7 +60,7 @@ export const StyledFormDiv = styled.div`
   display: flex;
   flex-direction: column;
   height: 50px;
-  width: 500px;
+  width: 50%;
   margin: 30px 0;
 `;
 
