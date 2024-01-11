@@ -13,7 +13,7 @@ import {
     FormSection,
     ButtonDiv
 } from './RiscoElements';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {server} from '../../server.js';
 
@@ -23,13 +23,55 @@ const Risco = () => {
     const [cooY, setCooY] = useState('');
     const [cooX, setCooX] = useState('');
     const [numMorad, setNumMorad] = useState('');
-    const [nspt2, setNspt2] = useState('');
     const [numPessoa, setNumPessoa] = useState('');
     const [grauRisco, setGrauRisco] = useState('');
     const [descricao, setDescricao] = useState('');
     const [grauVulne, setGrauVulne] = useState('');
 
+    const toastOptions = {
+        transition: Slide,
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true
+    };
+
+    const handleKeyPress = (event) => {
+        const keyCode = event.keyCode || event.which;
+        const keyValue = String.fromCharCode(keyCode);
+
+        // Verifica se o valor não é um número 
+        if (!/^\d+$/.test(keyValue)) {
+            event.preventDefault();
+        }
+    };
+
+    const handleKeyPressCoordinates = (event) => {
+        const keyCode = event.keyCode || event.which;
+        const keyValue = String.fromCharCode(keyCode);
+
+        // Verifica se o valor não é um número ou se já existe um ponto decimal
+        if (!/^\d*\.?\d*$/.test(keyValue)) {
+            event.preventDefault();
+        }
+    };
+
+    const validateFields = () => {
+        if (!numRel || !cooY || !cooX || !numMorad || !numPessoa || !grauRisco || !descricao) {
+            toast.error('Todos os campos são obrigatórios', toastOptions);
+            return false;
+        }
+        return true;
+    };
+
     async function Salvar() {
+
+        if (!validateFields()) {
+            return;
+        }
+
         const body = {
             num_rel: numRel,
             cooX: cooX,
@@ -51,7 +93,7 @@ const Risco = () => {
         if (response.status >= 200 && response.status < 300) {
             const body = await response.text();
             if(body.match(/Erro:/g)) {
-                toast.error(body);
+                toast.error(body, toastOptions);
             } else {
                 setNumRel('');
                 setCooY('');
@@ -62,10 +104,10 @@ const Risco = () => {
                 setDescricao('');
                 setGrauVulne('');
 
-                toast.success('Cadastro realizado com sucesso!');
+                toast.success('Cadastro realizado com sucesso!', toastOptions);
             }
         } else {
-            toast.error("Error");
+            toast.error("Error", toastOptions);
         }
     }
 
@@ -84,34 +126,43 @@ const Risco = () => {
                     <FormSection>
                         <StyledFormDiv>
                             <StyledFormLabel>Número do Relatório</StyledFormLabel>
-                            <StyledFormInput value={numRel} onChange={(e) => setNumRel(e.target.value)}/>
+                            <StyledFormInput value={numRel} onChange={(e) => setNumRel(e.target.value)} onKeyPress={handleKeyPress}/>
                         </StyledFormDiv>
 
                         <StyledFormDiv>
                             <StyledFormLabel>Coordenada Y</StyledFormLabel>
-                            <StyledFormInput value={cooY} onChange={(e) => setCooY(e.target.value)}/>
+                            <StyledFormInput value={cooY} onChange={(e) => setCooY(e.target.value)} onKeyPress={handleKeyPressCoordinates}/>
                         </StyledFormDiv>
 
                         <StyledFormDiv>
                             <StyledFormLabel>Coordenada X</StyledFormLabel>
-                            <StyledFormInput value={cooX} onChange={(e) => setCooX(e.target.value)}/>
+                            <StyledFormInput value={cooX} onChange={(e) => setCooX(e.target.value)} onKeyPress={handleKeyPressCoordinates}/>
                         </StyledFormDiv>
 
                         <StyledFormDiv>
                             <StyledFormLabel>Número da moradia</StyledFormLabel>
-                            <StyledFormInput value={numMorad} onChange={(e) => setNumMorad(e.target.value)}/>
+                            <StyledFormInput value={numMorad} onChange={(e) => setNumMorad(e.target.value)} onKeyPress={handleKeyPress}/>
                         </StyledFormDiv>
                     </FormSection>
 
                     <FormSection>
                         <StyledFormDiv>
                             <StyledFormLabel>Número de pessoas</StyledFormLabel>
-                            <StyledFormInput value={numPessoa} onChange={(e) => setNumPessoa(e.target.value)}/>
+                            <StyledFormInput value={numPessoa} onChange={(e) => setNumPessoa(e.target.value)} onKeyPress={handleKeyPress}/>
                         </StyledFormDiv>
 
                         <StyledFormDiv>
                             <StyledFormLabel>Grau de risco</StyledFormLabel>
-                            <StyledFormInput value={grauRisco} onChange={(e) => setGrauRisco(e.target.value)}/>
+                            <select
+                                value={grauRisco}
+                                onChange={(e) => setGrauRisco(e.target.value)}
+                            >
+                                <option value="">Selecione o grau de risco</option>
+                                <option value="Baixo">Baixo</option>
+                                <option value="Médio">Médio</option>
+                                <option value="Alto">Alto</option>
+                                <option value="Muito Alto">Muito Alto</option>
+                            </select>
                         </StyledFormDiv>
 
                         <StyledFormDiv>
@@ -121,7 +172,16 @@ const Risco = () => {
 
                         <StyledFormDiv>
                             <StyledFormLabel>Grau de vulnerabilidade</StyledFormLabel>
-                            <StyledFormInput value={grauVulne} onChange={(e) => setGrauVulne(e.target.value)}/>
+                            <select
+                                value={grauVulne}
+                                onChange={(e) => setGrauRisco(e.target.value)}
+                            >
+                                <option value="">Selecione o grau de vulnerabilidade</option>
+                                <option value="Baixo">Baixo</option>
+                                <option value="Médio">Médio</option>
+                                <option value="Alto">Alto</option>
+                                <option value="Muito Alto">Muito Alto</option>
+                            </select>
                         </StyledFormDiv>
                     </FormSection>
                 </FormContainer>
