@@ -16,9 +16,10 @@ import {
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {server} from '../../server.js';
+import {useNavigate} from "react-router-dom";
 
 const Risco = () => {
-
+    const navigate = useNavigate();
     const [numRel, setNumRel] = useState('');
     const [cooY, setCooY] = useState('');
     const [cooX, setCooX] = useState('');
@@ -80,7 +81,8 @@ const Risco = () => {
             num_pessoa: numPessoa,
             grau_risco: grauRisco,
             descricao: descricao,
-            grau_vulne: grauVulne
+            grau_vulne: grauVulne,
+            token: document.cookie
         }
         const response = await fetch(`${server}/riscos`, {
             method: "POST",
@@ -110,6 +112,25 @@ const Risco = () => {
             toast.error("Error", toastOptions);
         }
     }
+
+    async function Autenticar() {
+        const body = {
+            token: document.cookie
+        }
+        const response = await fetch(`${server}/isauthenticated`, {
+            method: "POST",
+            headers: {
+                accept: "application/json",
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(body)
+        })
+        if (!(response.status >= 200 && response.status <= 300)) {
+            navigate('/login');
+        }
+    }
+
+    Autenticar();
 
 
     return (
@@ -174,7 +195,7 @@ const Risco = () => {
                             <StyledFormLabel>Grau de vulnerabilidade</StyledFormLabel>
                             <select
                                 value={grauVulne}
-                                onChange={(e) => setGrauRisco(e.target.value)}
+                                onChange={(e) => setGrauVulne(e.target.value)}
                             >
                                 <option value="">Selecione o grau de vulnerabilidade</option>
                                 <option value="Baixo">Baixo</option>

@@ -1,6 +1,7 @@
 import {Amostra} from '../models/amostrasModel.js'
 import {GetSquare} from '../helper/squareHelper.js'
-import {validaInt, validaPreenchido, validaTamanho, validaFloat} from "../helper/validacaoHelper.js";
+import {validaFloat, validaInt, validaPreenchido, validaTamanho} from "../helper/validacaoHelper.js";
+import {isAuthenticated} from "./usuariosController.js";
 
 
 export async function GetAmostras(req, res) {
@@ -49,10 +50,15 @@ export async function GetAmostras(req, res) {
 }
 
 export async function EnrollAmostra(req, res) {
-    const {num_rel, cooX, cooY, nspt1, nspt2, num_amostra} = req.body;
+    const {num_rel, cooX, cooY, nspt1, nspt2, num_amostra, token} = req.body;
     try {
+        console.log("bbbb")
+        var autenticado = await isAuthenticated(token, res);
+        if (!autenticado) {
+            return
+        }
         const resultadoValidacao = ValidaAmostra(num_rel, cooX, cooY, nspt1, nspt2, num_amostra);
-        if(resultadoValidacao) {
+        if (resultadoValidacao) {
             res.status(200)
             res.send("Erro:" + resultadoValidacao)
         } else {
@@ -79,7 +85,7 @@ function ValidaAmostra(num_rel, cooX, cooY, nspt1, nspt2, num_amostra) {
     resultado = resultado + validaPreenchido(cooX, 'Coordenada X')
     resultado = resultado + validaPreenchido(cooY, 'Coordenada Y')
     resultado = resultado + validaPreenchido(num_amostra, 'Número de Amostras')
-    if(resultado) {
+    if (resultado) {
         return resultado
     }
     resultado = resultado + validaTamanho(num_rel, 'Número do Relatório', 11)

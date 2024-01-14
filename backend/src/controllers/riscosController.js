@@ -1,6 +1,7 @@
 import {Risco} from '../models/riscosModel.js'
 import {GetSquare} from '../helper/squareHelper.js'
-import {validaInt, validaPreenchido, validaTamanho, validaFloat} from "../helper/validacaoHelper.js";
+import {validaFloat, validaInt, validaPreenchido, validaTamanho} from "../helper/validacaoHelper.js";
+import {isAuthenticated} from "./usuariosController.js";
 
 export async function GetRiscos(req, res) {
     try {
@@ -41,11 +42,15 @@ export async function GetRiscos(req, res) {
 }
 
 export async function EnrollRisco(req, res) {
-    const {num_rel, cooX, cooY, num_morad, num_pessoa, grau_risco, descricao, grau_vulne} = req.body;
+    const {num_rel, cooX, cooY, num_morad, num_pessoa, grau_risco, descricao, grau_vulne, token} = req.body;
 
     try {
+        var autenticado = await isAuthenticated(token, res);
+        if (!autenticado) {
+            return
+        }
         const resultadoValidacao = ValidaRisco(num_rel, cooX, cooY, num_morad, num_pessoa, grau_risco, descricao, grau_vulne);
-        if(resultadoValidacao) {
+        if (resultadoValidacao) {
             res.status(200)
             res.send("Erro:" + resultadoValidacao)
         } else {
@@ -78,7 +83,7 @@ function ValidaRisco(num_rel, cooX, cooY, num_morad, num_pessoa, grau_risco, des
     resultado = resultado + validaPreenchido(grau_risco, 'Grau de Risco')
     resultado = resultado + validaPreenchido(descricao, 'Descrição')
     resultado = resultado + validaPreenchido(grau_vulne, 'Grau de Vulnerabilidade')
-    if(resultado) {
+    if (resultado) {
         return resultado
     }
     resultado = resultado + validaTamanho(num_rel, 'Número do Relatório', 11)

@@ -15,9 +15,10 @@ import {
 } from './AmostraElements';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import {server} from '../../server.js';
+import {useNavigate} from "react-router-dom";
 
 const Amostra = () => {
-
+    const navigate = useNavigate();
     const [numRel, setNumRel] = useState('');
     const [cooY, setCooY] = useState('');
     const [cooX, setCooX] = useState('');
@@ -76,6 +77,7 @@ const Amostra = () => {
             cooY: cooY,
             nspt1: nspt1,
             nspt2: nspt2,
+            token: document.cookie
         }
         const response = await fetch(`${server}/amostras`, {
             method: "POST",
@@ -103,6 +105,25 @@ const Amostra = () => {
             toast.error("Erro", toastOptions);
         }
     }
+
+    async function Autenticar() {
+        const body = {
+            token: document.cookie
+        }
+        const response = await fetch(`${server}/isauthenticated`, {
+            method: "POST",
+            headers: {
+                accept: "application/json",
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(body)
+        })
+        if (!(response.status >= 200 && response.status <= 300)) {
+            navigate('/login');
+        }
+    }
+
+    Autenticar();
 
     return (
         <Container>

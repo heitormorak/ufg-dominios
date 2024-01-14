@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import './LoginElements.css'; 
-import { ToastContainer, toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import React, {useState} from 'react';
+import './LoginElements.css';
+import {toast, ToastContainer} from 'react-toastify';
+import {useNavigate} from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import {NavLink} from "../navbar/NavbarElements.js";
 
@@ -19,32 +19,33 @@ const Login = () => {
                 password: password
             };
             const response = await fetch(`${server}/login`, {
-                method: "POST",             
-                headers:{
-                    accept : "application/json",
+                method: "POST",
+                headers: {
+                    accept: "application/json",
                     "content-type": "application/json"
                 },
-                body: JSON.stringify(body)            
+                body: JSON.stringify(body)
             });
 
             const responseData = await response.json();
-    
-            if (response.status >= 200 && response.status <=300){
-                navigate('/risco');       
+
+            if (response.status >= 200 && response.status <= 300) {
+                document.cookie = responseData.msg;
+                navigate('/risco');
             } else {
                 toast.error(responseData.msg);
             }
         } catch (error) {
             console.error('Error:', error);
             toast.error("Error");
-        }        
+        }
     }
-    
+
 
     return (
-        
+
         <div className="login-container">
-            <ToastContainer />
+            <ToastContainer/>
             <form className="login-form">
                 <h1>Login</h1>
                 <div className="input-group">
