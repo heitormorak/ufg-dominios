@@ -55,6 +55,7 @@ export async function EnrollAmostra(req, res) {
         console.log("bbbb")
         var autenticado = await isAuthenticated(token, res);
         if (!autenticado) {
+            res.status(404).json({msg: "Usuário não autenticado"});
             return
         }
         const resultadoValidacao = ValidaAmostra(num_rel, cooX, cooY, nspt1, nspt2, num_amostra);

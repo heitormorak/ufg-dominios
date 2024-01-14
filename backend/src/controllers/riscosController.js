@@ -45,8 +45,9 @@ export async function EnrollRisco(req, res) {
     const {num_rel, cooX, cooY, num_morad, num_pessoa, grau_risco, descricao, grau_vulne, token} = req.body;
 
     try {
-        var autenticado = await isAuthenticated(token, res);
+        var autenticado = await isAuthenticated(token);
         if (!autenticado) {
+            res.status(404).json({msg: "Usuário não autenticado"});
             return
         }
         const resultadoValidacao = ValidaRisco(num_rel, cooX, cooY, num_morad, num_pessoa, grau_risco, descricao, grau_vulne);

@@ -57,7 +57,7 @@ export async function Login(req, res) {
     }
 }
 
-export async function isAuthenticated(token, res) {
+export async function isAuthenticated(token) {
     const users = await Usuario.findAll();
     var usuarioExiste = false;
     for (let i = 0; i < users.length; i++) {
@@ -66,16 +66,22 @@ export async function isAuthenticated(token, res) {
             usuarioExiste = true
         }
     }
-    if (!usuarioExiste) {
-        res.status(404).json({msg: "Usuário não autenticado"});
-    }
-    return usuarioExiste
+    return usuarioExiste;
 }
 
 export async function isAuthenticatedRequest(req, res) {
     const {token} = req.body
-    if(isAuthenticated(token, res)) {
-        res.status(200).json({msg: "Usuario autenticado"})
+    const autenticado = await isAuthenticated(token);
+    try {
+        if (autenticado) {
+            res.status(200).json({msg: "Usuario autenticado"})
+        } else {
+            res.status(404).json({msg: "Usuário não autenticado"});
+        }
+    } catch (error) {
+        res.status(400)
+        res.send({msg: "Erro 400", error})
+        console.log(error);
     }
 }
 
