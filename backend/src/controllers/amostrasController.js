@@ -1,7 +1,6 @@
 import {Amostra} from '../models/amostrasModel.js'
 import {GetSquare} from '../helper/squareHelper.js'
 import {validaFloat, validaInt, validaPreenchido, validaTamanho} from "../helper/validacaoHelper.js";
-import {isAuthenticated} from "./usuariosController.js";
 
 
 export async function GetAmostras(req, res) {
@@ -52,12 +51,6 @@ export async function GetAmostras(req, res) {
 export async function EnrollAmostra(req, res) {
     const {num_rel, cooX, cooY, nspt1, nspt2, num_amostra, token} = req.body;
     try {
-        console.log("bbbb")
-        var autenticado = await isAuthenticated(token, res);
-        if (!autenticado) {
-            res.status(404).json({msg: "Usuário não autenticado"});
-            return
-        }
         const resultadoValidacao = ValidaAmostra(num_rel, cooX, cooY, nspt1, nspt2, num_amostra);
         if (resultadoValidacao) {
             res.status(200)

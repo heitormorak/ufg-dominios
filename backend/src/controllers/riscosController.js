@@ -1,7 +1,6 @@
 import {Risco} from '../models/riscosModel.js'
 import {GetSquare} from '../helper/squareHelper.js'
 import {validaFloat, validaInt, validaPreenchido, validaTamanho} from "../helper/validacaoHelper.js";
-import {isAuthenticated} from "./usuariosController.js";
 
 export async function GetRiscos(req, res) {
     try {
@@ -33,8 +32,6 @@ export async function GetRiscos(req, res) {
                 },
             };
         });
-
-
         res.json(polygonDataArray)
     } catch (error) {
         console.error(error)
@@ -45,11 +42,6 @@ export async function EnrollRisco(req, res) {
     const {num_rel, cooX, cooY, num_morad, num_pessoa, grau_risco, descricao, grau_vulne, token} = req.body;
 
     try {
-        var autenticado = await isAuthenticated(token);
-        if (!autenticado) {
-            res.status(404).json({msg: "Usuário não autenticado"});
-            return
-        }
         const resultadoValidacao = ValidaRisco(num_rel, cooX, cooY, num_morad, num_pessoa, grau_risco, descricao, grau_vulne);
         if (resultadoValidacao) {
             res.status(200)
