@@ -1,15 +1,17 @@
-import React, {useState} from 'react';
+import React, { useState, useContext } from 'react';
 import './LoginElements.css';
-import {toast, ToastContainer} from 'react-toastify';
-import {useNavigate} from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import {NavLink} from "../navbar/NavbarElements.js";
+import { NavLink } from "../navbar/NavbarElements.js";
+import { AuthContext } from '../../context/AuthContext.jsx';
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const server = 'http://localhost:3333';
+    const { setIsLoggedIn } = useContext(AuthContext);
 
     async function Auth(event) {
         event.preventDefault();
@@ -29,8 +31,9 @@ const Login = () => {
 
             const responseData = await response.json();
 
-            if (response.status >= 200 && response.status <= 300) {
-                document.cookie = responseData.msg;
+            if (response.status >= 200 && response.status < 300) {
+                localStorage.setItem('token', responseData.token); 
+                setIsLoggedIn(true);
                 navigate('/risco');
             } else {
                 toast.error(responseData.msg);
@@ -41,9 +44,7 @@ const Login = () => {
         }
     }
 
-
     return (
-
         <div className="login-container">
             <ToastContainer/>
             <form className="login-form">

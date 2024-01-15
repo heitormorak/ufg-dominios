@@ -10,11 +10,12 @@ import Usuario from "./components/usuario/Usuario.jsx"
 import AreasRisco from "./components/areasrisco/AreasRisco"
 import Login from "./components/login/Login";
 import Logout from "./components/logout/Logout.jsx";
+import { AuthProvider } from './context/AuthContext.jsx';
 
 
 function App() {
   return (
-    <>
+    <AuthProvider>
     <Router>
       <Navbar />
       <Routes>
@@ -31,7 +32,7 @@ function App() {
       </Routes>
     </Router>
     
-    </>
+    </AuthProvider>
   );
 }
   

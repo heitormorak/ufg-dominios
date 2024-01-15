@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect } from 'react';
 import Search from './search';
 import {
     Container,
@@ -28,6 +28,13 @@ const Risco = () => {
     const [grauRisco, setGrauRisco] = useState('');
     const [descricao, setDescricao] = useState('');
     const [grauVulne, setGrauVulne] = useState('');
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login');
+        }
+    }, [navigate]);
 
     const toastOptions = {
         transition: Slide,
@@ -66,10 +73,17 @@ const Risco = () => {
         }
         return true;
     };
+    
 
     async function Salvar() {
 
         if (!validateFields()) {
+            return;
+        }
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login');
             return;
         }
 
@@ -87,11 +101,13 @@ const Risco = () => {
         const response = await fetch(`${server}/riscos`, {
             method: "POST",
             headers: {
-                accept: "application/json",
-                "content-type": "application/json"
+                "Authorization": `Bearer ${token}`,
+                "Accept": "application/json",
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(body)
-        })
+        });
+    
         if (response.status >= 200 && response.status < 300) {
             const body = await response.text();
             if(body.match(/Erro:/g)) {
@@ -112,26 +128,6 @@ const Risco = () => {
             toast.error("Error", toastOptions);
         }
     }
-
-    async function Autenticar() {
-        const body = {
-            token: document.cookie
-        }
-        const response = await fetch(`${server}/isauthenticated`, {
-            method: "POST",
-            headers: {
-                accept: "application/json",
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(body)
-        })
-        if (!(response.status >= 200 && response.status <= 300)) {
-            navigate('/login');
-        }
-    }
-
-    Autenticar();
-
 
     return (
         <Container>

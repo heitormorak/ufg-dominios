@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Search from './search';
 import {
     Container,
@@ -19,12 +19,20 @@ import {useNavigate} from "react-router-dom";
 
 const Amostra = () => {
     const navigate = useNavigate();
+
     const [numRel, setNumRel] = useState('');
     const [cooY, setCooY] = useState('');
     const [cooX, setCooX] = useState('');
     const [nspt1, setNspt1] = useState('');
     const [nspt2, setNspt2] = useState('');
     const [numAmostra, setNumAmostra] = useState('');
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login');
+        }
+    }, [navigate]);
 
     const toastOptions = {
         transition: Slide,
@@ -64,9 +72,17 @@ const Amostra = () => {
         return true;
     };
 
+    
+
     async function Salvar() {
 
         if (!validateFields()) {
+            return;
+        }
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login');
             return;
         }
 
@@ -79,14 +95,17 @@ const Amostra = () => {
             nspt2: nspt2,
             token: document.cookie
         }
+
         const response = await fetch(`${server}/amostras`, {
             method: "POST",
             headers: {
-                accept: "application/json",
-                "content-type": "application/json"
+                "Authorization": `Bearer ${token}`,
+                "Accept": "application/json",
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(body)
-        })
+        });
+
         if (response.status >= 200 && response.status <= 300) {
             const body = await response.text();
             if(body.match(/Erro:/g)) {
@@ -104,26 +123,7 @@ const Amostra = () => {
         } else {
             toast.error("Erro", toastOptions);
         }
-    }
-
-    async function Autenticar() {
-        const body = {
-            token: document.cookie
-        }
-        const response = await fetch(`${server}/isauthenticated`, {
-            method: "POST",
-            headers: {
-                accept: "application/json",
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(body)
-        })
-        if (!(response.status >= 200 && response.status <= 300)) {
-            navigate('/login');
-        }
-    }
-
-    Autenticar();
+    }  
 
     return (
         <Container>
