@@ -72,6 +72,7 @@ const Usuario = () => {
                 toast.success("Usuário cadastrado com sucesso", toastOptions);
             }
         } else {
+            toast.error("ERRO", toastOptions);
             console.log("ERRO");
         }
     }
