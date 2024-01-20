@@ -1,28 +1,53 @@
 import React, {useState} from 'react';
 import {
     Container,
+    FormContainer,
+    FormSection,
     StyledButton,
     StyledDiv,
     StyledFormDiv,
     StyledFormInput,
     StyledFormLabel,
     Title,
-    TitleDiv,
-    FormContainer,
-    FormSection,
-    ButtonDiv 
+    TitleDiv
 } from './UsuarioElements.js';
 import {server} from '../../server.js';
-import {useNavigate} from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify';
+import {Slide, toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 const Usuario = () => {
 
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [usuario, setUsuario] = useState('');
-    const navigate = useNavigate();
+
+    const toastOptions = {
+        transition: Slide,
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true
+    };
+    const validateFields = () => {
+        if (!email || !senha || !usuario) {
+            toast.error('Todos os campos são obrigatórios', toastOptions);
+            return false;
+        }
+        if(!/^.*@.*\..*/.test(email)) {
+            toast.error('Email não está no formato correto', toastOptions);
+            return false;
+        }
+        return true;
+    };
+
     async function Salvar() {
+
+        if (!validateFields()) {
+            return;
+        }
+
         const body = {
             email: email,
             senha: senha,
@@ -38,10 +63,14 @@ const Usuario = () => {
         })
         if (response.status >= 200 && response.status <= 300) {
             const body = await response.text();
-            if(body.match(/Erro:/g)) {
-                toast.error(body);
+            if (body.match(/Erro:/g)) {
+                toast.error(body, toastOptions);
             } else {
-                navigate('/login');
+                setEmail('');
+                setUsuario('');
+                setSenha('');
+                setNumAmostra('');
+                toast.success("Usuário cadastrado com sucesso", toastOptions);
             }
         } else {
             console.log("ERRO");
@@ -51,7 +80,7 @@ const Usuario = () => {
 
     return (
         <Container>
-            <ToastContainer />
+            <ToastContainer/>
             <StyledDiv>
                 <TitleDiv>
                     <Title>Cadastro de usuários</Title>
