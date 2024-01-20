@@ -69,7 +69,6 @@ const Usuario = () => {
                 setEmail('');
                 setUsuario('');
                 setSenha('');
-                setNumAmostra('');
                 toast.success("Usuário cadastrado com sucesso", toastOptions);
             }
         } else {
