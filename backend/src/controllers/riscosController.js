@@ -42,10 +42,20 @@ export async function EnrollRisco(req, res) {
     const {num_rel, cooX, cooY, num_morad, num_pessoa, grau_risco, descricao, grau_vulne, token} = req.body;
 
     try {
-        const resultadoValidacao = ValidaRisco(num_rel, cooX, cooY, num_morad, num_pessoa, grau_risco, descricao, grau_vulne);
-        if (resultadoValidacao) {
-            res.status(200)
-            res.send("Erro:" + resultadoValidacao)
+        const risco = await Risco.findOne({ where: { num_rel: num_rel } });
+
+        if (risco){
+            await risco.update({
+                num_rel: num_rel,
+                cooX: cooX,
+                cooY: cooY,
+                num_morad: num_morad,
+                num_pessoa: num_pessoa,
+                grau_risco: grau_risco,
+                descricao: descricao,
+                grau_vulne: grau_vulne
+            });        
+            res.json("Risco atualizado com sucesso");
         } else {
             await Risco.create({
                 num_rel: num_rel,
@@ -57,12 +67,28 @@ export async function EnrollRisco(req, res) {
                 descricao: descricao,
                 grau_vulne: grau_vulne
             });
+        
+            res.json("Registration Successful");
         }
-        res.json("Registration Successful");
+
     } catch (error) {
         res.status(400)
         res.send({msg: "Erro 400", error})
         console.log(error);
+    }
+}
+
+export async function GetRiscoByNumRel(req, res) {
+    try {
+        const num_rel = req.body.num_rel;
+        const risco = await Risco.findOne({ where: { num_rel: num_rel } });
+        if (risco) {
+            res.json(risco);
+        } else {
+            res.status(404).send('Registro não encontrada');
+        }
+    } catch (error) {
+        res.status(500).send(error.message);
     }
 }
 

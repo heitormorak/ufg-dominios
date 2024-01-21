@@ -1,5 +1,5 @@
 import React, {useState, useEffect } from 'react';
-import Search from './search';
+import SearchBar from './search';
 import {
     Container,
     StyledButton,
@@ -76,7 +76,6 @@ const Risco = () => {
     
 
     async function Salvar() {
-
         if (!validateFields()) {
             return;
         }
@@ -129,6 +128,45 @@ const Risco = () => {
         }
     }
 
+    const onSearch = async (num_rel) => {
+        try {
+            const token = localStorage.getItem('token');
+
+            const body = {
+                num_rel: num_rel,
+            }
+
+            const response = await fetch(`${server}/searchriscos`, {
+                method: 'POST',
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            });
+
+            if (response.status >= 200 && response.status <= 300) {
+                const data = await response.json();
+                setNumRel(data.num_rel);
+                setCooY(data.cooY);
+                setCooX(data.cooX);                
+                setNumMorad(data.num_morad);
+                setNumPessoa(data.num_pessoa);
+                setGrauRisco(data.grau_risco);
+                setDescricao(data.descricao);
+                setGrauVulne(data.grau_vulne);
+            } else if (response.status >= 404){
+                toast.error('Registro não encontrado', toastOptions);
+            }
+            else {
+                console.error('error');
+            }
+        } catch (error) {
+            console.error('Erro na busca:', error);
+        }
+    };
+
     return (
         <Container>
             <ToastContainer />
@@ -137,7 +175,7 @@ const Risco = () => {
                     <Title>Cadastro de riscos</Title>
                 </TitleDiv>
 
-                <Search/>
+                <SearchBar onSearch={onSearch} />
 
                 <FormContainer>
                     <FormSection>
