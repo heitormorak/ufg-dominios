@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import Search from './search';
+import SearchBar from './search';
 import {
     Container,
     StyledButton,
@@ -72,8 +72,6 @@ const Amostra = () => {
         return true;
     };
 
-    
-
     async function Salvar() {
 
         if (!validateFields()) {
@@ -93,7 +91,6 @@ const Amostra = () => {
             cooY: cooY,
             nspt1: nspt1,
             nspt2: nspt2,
-            token: document.cookie
         }
 
         const response = await fetch(`${server}/amostras`, {
@@ -123,8 +120,45 @@ const Amostra = () => {
         } else {
             toast.error("Erro", toastOptions);
         }
-    }  
+    } 
 
+    const onSearch = async (num_rel) => {
+        try {
+            const token = localStorage.getItem('token');
+
+            const body = {
+                num_rel: num_rel,
+            }
+
+            const response = await fetch(`${server}/searchamostras`, {
+                method: 'POST',
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            });
+
+            if (response.status >= 200 && response.status <= 300) {
+                const data = await response.json();
+                setNumRel(data.num_rel);
+                setCooY(data.cooY);
+                setCooX(data.cooX);
+                setNspt1(data.nspt12);
+                setNspt2(data.nspt23);
+                setNumAmostra(data.num_amostra);
+            } else if (response.status >= 404){
+                toast.error('Amostra não encontrada', toastOptions);
+            }
+            else {
+                console.error('error');
+            }
+        } catch (error) {
+            console.error('Erro na busca:', error);
+        }
+    };
+   
     return (
         <Container>
             <ToastContainer/>            
@@ -133,7 +167,7 @@ const Amostra = () => {
                     <Title>Cadastro de amostras</Title>
                 </TitleDiv>
 
-                <Search/>
+                <SearchBar onSearch={onSearch} />
 
                 <FormContainer>
                     <FormSection>

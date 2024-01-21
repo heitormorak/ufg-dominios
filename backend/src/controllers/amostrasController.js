@@ -49,12 +49,20 @@ export async function GetAmostras(req, res) {
 }
 
 export async function EnrollAmostra(req, res) {
-    const {num_rel, cooX, cooY, nspt1, nspt2, num_amostra, token} = req.body;
+    const {num_rel, cooX, cooY, nspt1, nspt2, num_amostra} = req.body;
+    
     try {
-        const resultadoValidacao = ValidaAmostra(num_rel, cooX, cooY, nspt1, nspt2, num_amostra);
-        if (resultadoValidacao) {
-            res.status(200)
-            res.send("Erro:" + resultadoValidacao)
+        const amostra = await Amostra.findOne({ where: { num_rel: num_rel } });
+
+        if (amostra) {
+            await amostra.update({
+                cooX: cooX,
+                cooY: cooY,
+                nspt1: nspt1,
+                nspt2: nspt2,
+                num_amostra: num_amostra
+            });
+            res.json("Amostra atualizada com sucesso");
         } else {
             await Amostra.create({
                 num_rel: num_rel,
@@ -72,6 +80,21 @@ export async function EnrollAmostra(req, res) {
         console.log(error);
     }
 }
+
+export async function GetAmostraByNumRel(req, res) {
+    try {
+        const num_rel = req.body.num_rel;
+        const amostra = await Amostra.findOne({ where: { num_rel: num_rel } });
+        if (amostra) {
+            res.json(amostra);
+        } else {
+            res.status(404).send('Amostra não encontrada');
+        }
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
+
 
 function ValidaAmostra(num_rel, cooX, cooY, nspt1, nspt2, num_amostra) {
     var resultado = ''

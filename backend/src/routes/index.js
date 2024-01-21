@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {EnrollAmostra, GetAmostras} from '../controllers/amostrasController.js';
+import {EnrollAmostra, GetAmostras, GetAmostraByNumRel} from '../controllers/amostrasController.js';
 import {EnrollRisco, GetRiscos} from '../controllers/riscosController.js';
 import {EnrollUsuario, Login} from '../controllers/usuariosController.js';
 import { authMiddleware } from '../middleware/authMiddleware.js'; 
@@ -7,6 +7,7 @@ import { authMiddleware } from '../middleware/authMiddleware.js';
 const router = Router();
 
 router.get('/amostras', GetAmostras);
+router.post('/searchamostras/', GetAmostraByNumRel);
 router.post('/amostras', authMiddleware, EnrollAmostra);
 router.get('/riscos', GetRiscos);
 router.post('/riscos', authMiddleware, EnrollRisco);
